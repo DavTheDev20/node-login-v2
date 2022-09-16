@@ -1,11 +1,22 @@
+require('dotenv').config();
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 const User = require('../models/user.model');
 
 const userRouter = express.Router();
 const saltRounds = 10;
 const JWT_SECRET = 'secret';
+const YAHOO_PASS = process.env.YAHOO_PASS;
+
+const transporter = nodemailer.createTransport({
+  service: 'yahoo',
+  auth: {
+    user: 'blackandtechytesting@yahoo.com',
+    pass: YAHOO_PASS,
+  },
+});
 
 userRouter
   .post('/register', (req, res, next) => {
@@ -30,6 +41,18 @@ userRouter
           newUser
             .save()
             .then((result) => {
+              transporter.sendMail(
+                {
+                  from: 'blackandtechytesting@yahoo.com',
+                  to: result.email,
+                  subject: 'Welcome to Node Login V2!',
+                  html: '<p>Welcome to the application!</p>',
+                },
+                (err, info) => {
+                  err ? console.log(err) : console.log(info);
+                }
+              );
+
               const jwtToken = jwt.sign(
                 { _id: result._id, userId: result.userId, email: result.email },
                 JWT_SECRET,
