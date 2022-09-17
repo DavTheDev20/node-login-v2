@@ -46,7 +46,7 @@ userRouter
                   from: 'blackandtechytesting@yahoo.com',
                   to: result.email,
                   subject: 'Welcome to Node Login V2!',
-                  html: '<p>Welcome to the application!</p>',
+                  html: `<p>Welcome to the application ${result.userId}!</p>`,
                 },
                 (err, info) => {
                   err ? console.log(err) : console.log(info);
