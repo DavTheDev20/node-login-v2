@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb://localhost:27017/node-login-v2-DB';
+const MONGODB_URI = 'mongodb://0.0.0.0:27017/node-login-v2-DB';
 
 /**
  * This function connects the application to the MongoDB database server.
